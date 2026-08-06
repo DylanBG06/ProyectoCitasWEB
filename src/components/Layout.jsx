@@ -12,6 +12,7 @@ function Layout() {
                     <Link to="/" className="font-semibold">Inicio</Link>
                     <Link to="/login">Login</Link>
                     <Link to="/servicios">Servicios</Link>
+                    <Link to="/servicios-adicionales">Servicios adicionales</Link>
                 </div>
 
                 <div className="flex items-center gap-3">

@@ -7,6 +7,9 @@ import CitasPage from "./pages/CitasPage"
 import ServiciosPage from "./pages/ServiciosPage"
 import ServicioDetallePage from "./pages/ServicioDetallePage"
 import ServicioFormPage from "./pages/ServicioFormPage"
+import ServicioAdicionalFormPage from "./pages/AdicionalFormPage"
+import ServiciosAdicionalesPage from "./pages/AdicionalesPage"
+import ServicioAdicionalDetallePage from "./pages/AdicionalDetallePage"
 
 function App() {
   return (
@@ -26,6 +29,21 @@ function App() {
 
         <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
           <Route path="/servicios/crear" element={<ServicioFormPage />} />
+          <Route path="/servicios/:id/editar" element={<ServicioFormPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida />}>
+          <Route path="/servicios-adicionales" element={<ServiciosAdicionalesPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
+          <Route path="/servicios-adicionales/crear" element={<ServicioAdicionalFormPage />} />
+          <Route path="/servicios-adicionales/:id/editar" element={<ServicioAdicionalFormPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida />}>
+          <Route path="/servicios-adicionales" element={<ServiciosAdicionalesPage />} />
+          <Route path="/servicios-adicionales/:id" element={<ServicioAdicionalDetallePage />} />
         </Route>
 
       </Route>

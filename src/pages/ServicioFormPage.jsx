@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { crearServicio } from "@/api/serviciosApi"
+import { useNavigate, useParams } from "react-router-dom"
+import { actualizarServicio, crearServicio, obtenerServicioPorId } from "@/api/serviciosApi"
 import { listarEspecialidades } from "@/api/especialidadesApi"
 
 function ServicioFormPage() {
     const navigate = useNavigate()
-    const [especialidades, setEspecialidades] = useState([])
+    const { id } = useParams()
+    const esEdicion = !!id
 
+    const [especialidades, setEspecialidades] = useState([])
     const [nombre, setNombre] = useState("")
     const [descripcion, setDescripcion] = useState("")
     const [precioBase, setPrecioBase] = useState("")
@@ -23,6 +25,22 @@ function ServicioFormPage() {
         cargarEspecialidades()
     }, [])
 
+    useEffect(() => {
+        if (esEdicion) {
+            async function cargarServicios() {
+                const response = await obtenerServicioPorId(id)
+
+                setNombre(response.nombre)
+                setDescripcion(response.descripcion)
+                setPrecioBase(response.precioBase)
+                setDuracionMinutos(response.duracionMinutos)
+                setEspecialidadId(response.especialidadId)
+            }
+
+            cargarServicios()
+        }
+    }, [id])
+
     async function handleSubmit() {
 
         const Servicio = {
@@ -34,14 +52,19 @@ function ServicioFormPage() {
             imagen: "placeholder.png"
         }
 
-        await crearServicio(Servicio)
+        if (esEdicion) {
+            await actualizarServicio(id, Servicio)
+        } else {
+
+            await crearServicio(Servicio)
+        }
 
         navigate("/servicios")
     }
 
     return (
         <div className="max-w-md">
-            <h1 className="text-2xl font-bold mb-4">Crear Servicio</h1>
+            <h1 className="text-2xl font-bold mb-4">{esEdicion ? "Editar Servicio" : "Crear Servicio"}</h1>
 
             <div className="flex flex-col gap-3">
                 <input
@@ -89,7 +112,7 @@ function ServicioFormPage() {
                     className="bg-blue-600 text-white px-4 py-2 rounded"
                     onClick={handleSubmit}
                 >
-                    Crear
+                    {esEdicion ? "Guardar Cambios" : "Crear"}
                 </button>
             </div>
         </div>
