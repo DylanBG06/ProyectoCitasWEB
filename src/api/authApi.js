@@ -13,3 +13,4 @@ export async function obtenerPerfil(token) {
     })
     return response.data.data
 }
+

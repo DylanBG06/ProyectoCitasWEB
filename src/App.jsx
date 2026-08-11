@@ -10,6 +10,9 @@ import ServicioFormPage from "./pages/ServicioFormPage"
 import ServicioAdicionalFormPage from "./pages/AdicionalFormPage"
 import ServiciosAdicionalesPage from "./pages/AdicionalesPage"
 import ServicioAdicionalDetallePage from "./pages/AdicionalDetallePage"
+import EmpleadosPage from "./pages/EmpleadosPage"
+import EmpleadoFormPage from "./pages/EmpleadoFormPage"
+import RegistroPage from "./pages/RegistroPage"
 
 function App() {
   return (
@@ -32,10 +35,6 @@ function App() {
           <Route path="/servicios/:id/editar" element={<ServicioFormPage />} />
         </Route>
 
-        <Route element={<RutaProtegida />}>
-          <Route path="/servicios-adicionales" element={<ServiciosAdicionalesPage />} />
-        </Route>
-
         <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
           <Route path="/servicios-adicionales/crear" element={<ServicioAdicionalFormPage />} />
           <Route path="/servicios-adicionales/:id/editar" element={<ServicioAdicionalFormPage />} />
@@ -46,7 +45,17 @@ function App() {
           <Route path="/servicios-adicionales/:id" element={<ServicioAdicionalDetallePage />} />
         </Route>
 
-      </Route>
+        <Route element={<RutaProtegida rolesPermitidos={["Administrador", "Empleado"]} />}>
+          <Route path="/empleados" element={<EmpleadosPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
+          <Route path="/empleados/nuevo" element={<EmpleadoFormPage />} />
+          <Route path="/empleados/:id/editar" element={<EmpleadoFormPage />} />
+        </Route>
+
+        <Route path="/registro" element={<RegistroPage />} />
+    </Route>
     </Routes>
   )
 }
