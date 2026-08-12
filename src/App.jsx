@@ -13,6 +13,11 @@ import ServicioAdicionalDetallePage from "./pages/AdicionalDetallePage"
 import EmpleadosPage from "./pages/EmpleadosPage"
 import EmpleadoFormPage from "./pages/EmpleadoFormPage"
 import RegistroPage from "./pages/RegistroPage"
+import HorariosPage from "./pages/HorariosPage"
+import HorarioFormPage from "./pages/HorarioFormPage"
+import RestriccionDetallePage from "./pages/Restricciondetallepage "
+import RestriccionesPage from "./pages/RestriccionesPage"
+import RestriccionFormPage from "./pages/Restriccionformpage"
 
 function App() {
   return (
@@ -55,7 +60,26 @@ function App() {
         </Route>
 
         <Route path="/registro" element={<RegistroPage />} />
-    </Route>
+
+        <Route element={<RutaProtegida />}>
+          <Route path="/horarios" element={<HorariosPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
+          <Route path="/horarios/nuevo" element={<HorarioFormPage />} />
+          <Route path="/horarios/:id/editar" element={<HorarioFormPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida rolesPermitidos={["Administrador", "Empleado"]} />}>
+          <Route path="/restricciones" element={<RestriccionesPage />} />
+          <Route path="/restricciones/:id" element={<RestriccionDetallePage />} />
+        </Route>
+
+        <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
+          <Route path="/restricciones/nueva" element={<RestriccionFormPage />} />
+        </Route>
+
+      </Route>
     </Routes>
   )
 }

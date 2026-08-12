@@ -38,6 +38,16 @@ function Layout() {
                             <PlusCircle className="h-4 w-4 text-indigo-500" />
                             Empleados
                         </Link>
+                        <Link to="/horarios" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
+                            <CalendarDays className="h-4 w-4 text-indigo-600" />
+                            Horarios de atencion
+                        </Link>
+
+                        <Link to="/restricciones" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
+                            <CalendarDays className="h-4 w-4 text-indigo-600" />
+                            Restricciones
+                        </Link>
+
                     </div>
                 </div>
 
