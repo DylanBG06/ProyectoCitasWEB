@@ -30,10 +30,10 @@ function RestriccionDetallePage() {
                     </Badge>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm text-slate-700">
-                    <p><strong>Fecha:</strong> {restriccion.fecha}</p>
+                    <p><strong>Fecha:</strong> {restriccion.fecha.substring(0, 10)}</p>
                     <p>
                         <strong>Horario:</strong>{" "}
-                        {restriccion.todoElDia ? "Todo el día" : `${restriccion.horaInicio} - ${restriccion.horaFin}`}
+                        {restriccion.todoElDia ? "Todo el día" : `${restriccion.horaInicio.substring(11, 16)} - ${restriccion.horaFin.substring(11, 16)}`}
                     </p>
                     <p><strong>Motivo:</strong> {restriccion.motivo}</p>
                     {restriccion.empleado && (

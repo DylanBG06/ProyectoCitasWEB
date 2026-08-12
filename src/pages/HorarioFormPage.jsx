@@ -5,6 +5,7 @@ import { listarDiasSemana } from "@/api/diaSemanaApi"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { restarSeisHoras } from "@/utils/horas"
 
 function HorarioFormPage() {
     const navigate = useNavigate()
@@ -39,13 +40,6 @@ function HorarioFormPage() {
             setCargando(false)
         }
     }, [id, esEdicion])
-
-    function restarSeisHoras(horaTexto) {
-        const [horas, minutos] = horaTexto.split(":").map(Number)
-        let nuevaHora = horas - 6
-        if (nuevaHora < 0) nuevaHora += 24
-        return `${String(nuevaHora).padStart(2, "0")}:${minutos.toString().padStart(2, "0")}`
-    }
 
     async function handleSubmit() {
         const datos = {

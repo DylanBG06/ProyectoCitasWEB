@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { restarSeisHoras } from "@/utils/horas"
 
 function RestriccionFormPage() {
     const navigate = useNavigate()
@@ -37,8 +38,8 @@ function RestriccionFormPage() {
             tipoRestriccionId: Number(tipoRestriccionId),
             empleadoId: empleadoId ? Number(empleadoId) : null,
             fecha,
-            horaInicio: todoElDia ? "00:00" : horaInicio,
-            horaFin: todoElDia ? "23:59" : horaFin,
+            horaInicio: todoElDia ? null : restarSeisHoras(horaInicio),
+            horaFin: todoElDia ? null : restarSeisHoras(horaFin),
             todoElDia,
             motivo
         }

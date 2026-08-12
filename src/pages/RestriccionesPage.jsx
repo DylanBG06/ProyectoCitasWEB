@@ -55,9 +55,9 @@ function RestriccionesPage() {
                                     </Badge>
                                 </CardHeader>
                                 <CardContent className="space-y-1 text-sm text-slate-600">
-                                    <p>Fecha: {r.fecha}</p>
+                                    <p>Fecha: {r.fecha.substring(0, 10)}</p>
                                     <p>
-                                        {r.todoElDia ? "Todo el día" : `${r.horaInicio} - ${r.horaFin}`}
+                                        {r.todoElDia ? "Todo el día" : `${r.horaInicio.substring(11, 16)} - ${r.horaFin.substring(11, 16)}`}
                                     </p>
                                     <p className="text-xs text-slate-500">{r.motivo}</p>
                                     {r.empleado && (
