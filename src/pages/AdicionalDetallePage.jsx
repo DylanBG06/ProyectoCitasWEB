@@ -4,10 +4,13 @@ import { cambiarEstadoAdicional, obtenerAdicionalPorId } from "@/api/adicionales
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Edit, Power, Image as ImageIcon, Loader2 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 function ServicioAdicionalDetallePage() {
     const { id } = useParams()
     const [servicio, setServicio] = useState(null)
+    const { usuario } = useAuth()
+    const esAdmin = usuario?.rol?.nombre === "Administrador"
 
     useEffect(() => {
         async function cargarServicioAdicional() {
@@ -34,7 +37,6 @@ function ServicioAdicionalDetallePage() {
 
     return (
         <div className="max-w-3xl mx-auto space-y-4">
-            {/* Botón para regresar al listado de adicionales */}
             <Button asChild variant="ghost" size="sm" className="text-slate-600 hover:text-slate-900">
                 <Link to="/servicios-adicionales" className="flex items-center gap-2">
                     <ArrowLeft className="h-4 w-4" />
@@ -46,8 +48,8 @@ function ServicioAdicionalDetallePage() {
                 {/* Previsualización de Imagen del Servicio Adicional */}
                 <div className="relative w-full h-56 bg-slate-100 border-b border-slate-200 flex items-center justify-center">
                     {servicio.imagenUrl || servicio.imagen ? (
-                        <img 
-                            src={servicio.imagenUrl || servicio.imagen} 
+                        <img
+                            src={servicio.imagenUrl || servicio.imagen}
                             alt={servicio.nombre}
                             className="w-full h-full object-cover"
                         />
@@ -61,7 +63,7 @@ function ServicioAdicionalDetallePage() {
                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${servicio.activo
                             ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
                             : "bg-rose-100 text-rose-800 border border-rose-200"
-                        }`}>
+                            }`}>
                             {servicio.activo ? "Activo" : "Inactivo"}
                         </span>
                     </div>
@@ -80,14 +82,15 @@ function ServicioAdicionalDetallePage() {
                 </CardContent>
 
                 <CardFooter className="bg-slate-50 border-t border-slate-100 flex items-center justify-between p-4">
-                    <Button asChild variant="outline" className="border-slate-300">
+                    {esAdmin && <Button asChild variant="outline" className="border-slate-300">
                         <Link to={`/servicios-adicionales/${servicio.id}/editar`} className="flex items-center gap-2">
                             <Edit className="h-4 w-4 text-slate-600" />
                             Editar
                         </Link>
                     </Button>
+                    }
 
-                    <Button 
+                    {esAdmin && <Button
                         onClick={handleCambiarEstado}
                         variant={servicio.activo ? "destructive" : "default"}
                         className={!servicio.activo ? "bg-emerald-600 hover:bg-emerald-500" : ""}
@@ -95,6 +98,7 @@ function ServicioAdicionalDetallePage() {
                         <Power className="h-4 w-4 mr-2" />
                         {servicio.activo ? "Desactivar" : "Activar"}
                     </Button>
+                    }
                 </CardFooter>
             </Card>
         </div>

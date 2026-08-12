@@ -18,6 +18,7 @@ import HorarioFormPage from "./pages/HorarioFormPage"
 import RestriccionDetallePage from "./pages/Restricciondetallepage "
 import RestriccionesPage from "./pages/RestriccionesPage"
 import RestriccionFormPage from "./pages/Restriccionformpage"
+import ProfilePage from "./pages/ProfilePage"
 
 function App() {
   return (
@@ -77,6 +78,10 @@ function App() {
 
         <Route element={<RutaProtegida rolesPermitidos={["Administrador"]} />}>
           <Route path="/restricciones/nueva" element={<RestriccionFormPage />} />
+        </Route>
+
+        <Route element={<RutaProtegida />}>
+          <Route path="/perfil" element={<ProfilePage />} />
         </Route>
 
       </Route>

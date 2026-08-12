@@ -5,11 +5,14 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Clock, PlusCircle } from "lucide-react"
+import { useAuth } from "@/context/AuthContext"
 
 function HorariosPage() {
     const [horarios, setHorarios] = useState([])
     const [cargando, setCargando] = useState(true)
     const navigate = useNavigate()
+    const { usuario } = useAuth()
+    const esAdmin = usuario?.rol?.nombre === "Administrador"
 
     async function cargarHorarios() {
         const response = await listarHorarios()
@@ -37,10 +40,11 @@ function HorariosPage() {
                     <Clock className="h-6 w-6 text-indigo-600" />
                     Horarios de Atención
                 </h1>
-                <Button onClick={() => navigate("/horarios/nuevo")} className="bg-indigo-600 hover:bg-indigo-700 gap-2">
+                {esAdmin && <Button onClick={() => navigate("/horarios/nuevo")} className="bg-indigo-600 hover:bg-indigo-700 gap-2">
                     <PlusCircle className="h-4 w-4" />
                     Nuevo Horario
                 </Button>
+                }
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -64,10 +68,11 @@ function HorariosPage() {
                                     {h.horaInicio.substring(11, 16)} - {h.horaFin.substring(11, 16)}
                                 </p>
                                 <div className="flex gap-2">
-                                    <Button asChild variant="outline" size="sm">
+                                    {esAdmin && <Button asChild variant="outline" size="sm">
                                         <Link to={`/horarios/${h.id}/editar`}>Editar</Link>
                                     </Button>
-                                    <Button
+                                    }
+                                    {esAdmin && <Button
                                         variant="ghost"
                                         size="sm"
                                         className={h.activo ? "text-red-600" : "text-emerald-600"}
@@ -75,6 +80,7 @@ function HorariosPage() {
                                     >
                                         {h.activo ? "Desactivar" : "Activar"}
                                     </Button>
+                                    }
                                 </div>
                             </CardContent>
                         </Card>

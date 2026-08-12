@@ -5,11 +5,14 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { UserCheck, UserPlus, Edit, Mail, Phone, Scissors, Shield } from "lucide-react"
+import { useAuth } from "@/context/AuthContext"
 
 function EmpleadosPage() {
     const [empleados, setEmpleados] = useState([])
     const [cargando, setCargando] = useState(true)
     const navigate = useNavigate()
+    const { usuario } = useAuth()
+    const esAdmin = usuario?.rol?.nombre === "Administrador"
 
     async function cargarEmpleados() {
         const response = await listarEmpleados()
@@ -49,13 +52,14 @@ function EmpleadosPage() {
                         Administra el equipo de trabajo y sus servicios asignados
                     </p>
                 </div>
-                <Button
+                {esAdmin && <Button
                     onClick={() => navigate("/empleados/nuevo")}
                     className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2.5 rounded-lg shadow-sm hover:shadow transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
                 >
                     <UserPlus className="h-4 w-4" />
                     <span>Nuevo Empleado</span>
                 </Button>
+                }
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -108,7 +112,7 @@ function EmpleadosPage() {
                                 )}
 
                                 <div className="flex justify-end gap-2 border-t border-slate-100 pt-3">
-                                    <Button
+                                    {esAdmin && <Button
                                         variant="outline"
                                         size="sm"
                                         className="h-8 text-xs gap-1 border-slate-200 text-slate-700"
@@ -117,7 +121,8 @@ function EmpleadosPage() {
                                         <Edit className="h-3.5 w-3.5" />
                                         Editar
                                     </Button>
-                                    <Button
+                                    }
+                                    {esAdmin && <Button
                                         variant="ghost"
                                         size="sm"
                                         className={`h-8 text-xs ${emp.activo ? "text-red-600 hover:bg-red-50" : "text-emerald-600 hover:bg-emerald-50"}`}
@@ -125,6 +130,7 @@ function EmpleadosPage() {
                                     >
                                         {emp.activo ? "Desactivar" : "Activar"}
                                     </Button>
+                                    }
                                 </div>
                             </CardContent>
                         </Card>

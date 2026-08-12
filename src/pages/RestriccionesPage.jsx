@@ -5,11 +5,14 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ShieldAlert, PlusCircle } from "lucide-react"
+import { useAuth } from "@/context/AuthContext"
 
 function RestriccionesPage() {
     const [restricciones, setRestricciones] = useState([])
     const [cargando, setCargando] = useState(true)
     const navigate = useNavigate()
+    const { usuario } = useAuth()
+    const esAdmin = usuario?.rol?.nombre === "Administrador"
 
     useEffect(() => {
         async function cargar() {
@@ -31,10 +34,11 @@ function RestriccionesPage() {
                     <ShieldAlert className="h-6 w-6 text-indigo-600" />
                     Restricciones de Horario
                 </h1>
-                <Button onClick={() => navigate("/restricciones/nueva")} className="bg-indigo-600 hover:bg-indigo-700 gap-2">
+                {esAdmin && <Button onClick={() => navigate("/restricciones/nueva")} className="bg-indigo-600 hover:bg-indigo-700 gap-2">
                     <PlusCircle className="h-4 w-4" />
                     Nueva Restricción
                 </Button>
+                }
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

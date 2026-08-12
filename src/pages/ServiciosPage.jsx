@@ -6,11 +6,14 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Clock, Plus, Sparkles, Image as ImageIcon, Search, Pencil, ExternalLink } from "lucide-react"
+import { useAuth } from "@/context/AuthContext"
 
 function ServiciosPage() {
     const [servicios, setServicios] = useState([])
     const [busqueda, setBusqueda] = useState("")
     const [cargando, setCargando] = useState(true)
+    const { usuario } = useAuth()
+    const esAdmin = usuario?.rol?.nombre === "Administrador"
 
     useEffect(() => {
         async function cargarServicios() {
@@ -52,12 +55,13 @@ function ServiciosPage() {
                     </p>
                 </div>
 
-                <Button asChild className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm">
+                {esAdmin && <Button asChild className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm">
                     <Link to="/servicios/crear" className="flex items-center gap-2">
                         <Plus className="h-4 w-4" />
                         Crear Servicio
                     </Link>
                 </Button>
+                }
             </div>
 
             <div className="relative max-w-md">
@@ -81,8 +85,8 @@ function ServiciosPage() {
                             <div>
                                 <div className="relative w-full h-40 bg-slate-100 overflow-hidden border-b border-slate-100 flex items-center justify-center">
                                     {servicio.imagenUrl || servicio.imagen ? (
-                                        <img 
-                                            src={servicio.imagenUrl || servicio.imagen} 
+                                        <img
+                                            src={servicio.imagenUrl || servicio.imagen}
                                             alt={servicio.nombre}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         />
@@ -93,7 +97,7 @@ function ServiciosPage() {
                                         </div>
                                     )}
                                     <div className="absolute top-3 right-3">
-                                        <Badge 
+                                        <Badge
                                             variant={servicio.activo !== false ? "default" : "destructive"}
                                             className={servicio.activo !== false ? "bg-emerald-600 hover:bg-emerald-700" : ""}
                                         >
@@ -132,12 +136,13 @@ function ServiciosPage() {
                                     </Link>
                                 </Button>
 
-                                <Button asChild variant="outline" size="sm" className="border-slate-200">
+                                {esAdmin && <Button asChild variant="outline" size="sm" className="border-slate-200">
                                     <Link to={`/servicios/${servicio.id}/editar`} className="flex items-center gap-1 text-xs text-slate-600">
                                         <Pencil className="h-3.5 w-3.5" />
                                         Editar
                                     </Link>
                                 </Button>
+                                }
                             </CardFooter>
                         </Card>
                     ))}

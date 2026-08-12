@@ -1,10 +1,11 @@
 import { Link, Outlet } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/button"
-import { Calendar, Sparkles, PlusCircle, LogOut, User, CalendarDays } from "lucide-react"
+import { Calendar, Sparkles, PlusCircle, LogOut, User, CalendarDays, Import } from "lucide-react"
 
 function Layout() {
     const { usuario, logout } = useAuth()
+    const esAdmin = usuario?.rol?.nombre === "Administrador"
 
     return (
         <div className="min-h-screen bg-slate-50/50 flex flex-col">
@@ -34,19 +35,23 @@ function Layout() {
                             <PlusCircle className="h-4 w-4 text-indigo-500" />
                             Servicios adicionales
                         </Link>
-                        <Link to="/empleados" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
+                        {esAdmin && <Link to="/empleados" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
                             <PlusCircle className="h-4 w-4 text-indigo-500" />
                             Empleados
                         </Link>
+                        }
                         <Link to="/horarios" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
                             <CalendarDays className="h-4 w-4 text-indigo-600" />
                             Horarios de atencion
                         </Link>
 
-                        <Link to="/restricciones" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
+                        {esAdmin && <Link to="/restricciones" className="px-3 py-1.5 rounded-md hover:text-indigo-600 hover:bg-slate-100 transition-colors flex items-center gap-1.5">
                             <CalendarDays className="h-4 w-4 text-indigo-600" />
                             Restricciones
                         </Link>
+                        }
+
+                        <Link to="/perfil">Mi Perfil</Link>
 
                     </div>
                 </div>
