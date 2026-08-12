@@ -30,8 +30,8 @@ function HorarioFormPage() {
             async function cargarHorario() {
                 const response = await obtenerHorariosPorId(id)
                 setDiaSemanaId(String(response.diaSemanaId))
-                setHoraInicio(response.horaInicio)
-                setHoraFin(response.horaFin)
+                setHoraInicio(response.horaInicio.substring(11, 16))
+                setHoraFin(response.horaFin.substring(11, 16))
                 setCargando(false)
             }
             cargarHorario()
@@ -40,12 +40,20 @@ function HorarioFormPage() {
         }
     }, [id, esEdicion])
 
+    function restarSeisHoras(horaTexto) {
+        const [horas, minutos] = horaTexto.split(":").map(Number)
+        let nuevaHora = horas - 6
+        if (nuevaHora < 0) nuevaHora += 24
+        return `${String(nuevaHora).padStart(2, "0")}:${minutos.toString().padStart(2, "0")}`
+    }
+
     async function handleSubmit() {
         const datos = {
             diaSemanaId: Number(diaSemanaId),
-            horaInicio,
-            horaFin
+            horaInicio: restarSeisHoras(horaInicio),
+            horaFin: restarSeisHoras(horaFin)
         }
+        console.log("Enviando:", datos)
 
         if (esEdicion) {
             await actualizarHorario(id, datos)
@@ -59,6 +67,7 @@ function HorarioFormPage() {
     if (cargando) {
         return <p className="text-center py-12 text-slate-500">Cargando...</p>
     }
+
 
     return (
         <div className="max-w-md mx-auto">
@@ -85,9 +94,11 @@ function HorarioFormPage() {
                         <Label>Hora de inicio</Label>
                         <input
                             type="time"
-                            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-md"
                             value={horaInicio}
-                            onChange={(e) => setHoraInicio(e.target.value)}
+                            onChange={(e) => {
+                                console.log("Valor crudo del input:", e.target.value)
+                                setHoraInicio(e.target.value)
+                            }}
                         />
                     </div>
 

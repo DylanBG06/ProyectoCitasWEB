@@ -61,7 +61,7 @@ function HorariosPage() {
                             </CardHeader>
                             <CardContent className="space-y-3">
                                 <p className="text-sm text-slate-600">
-                                    {h.horaInicio} - {h.horaFin}
+                                    {h.horaInicio.substring(11, 16)} - {h.horaFin.substring(11, 16)}
                                 </p>
                                 <div className="flex gap-2">
                                     <Button asChild variant="outline" size="sm">
